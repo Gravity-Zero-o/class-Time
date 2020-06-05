@@ -1,0 +1,109 @@
+#include <iostream>
+
+using namespace std;
+
+ 
+
+class Time
+
+{
+
+       int hour, minute, second;
+
+       static int baseHour, baseMinute, baseSecond; //类外将静态的基准时间初始化为1小时10分10秒
+
+ 
+
+       static int timeToSecond(Time t)  //将参数时间t转化为总秒数
+
+       {
+
+              return(t.hour*3600 + t.minute*60 + t.second);
+
+       }
+
+public:
+
+       Time(int h=0, int m=0, int s=0)
+
+       {
+
+              hour=h, minute=m, second=s;
+
+       }
+
+ 
+
+       static int timeBaseDiffence(Time t)  //计算时间t与基准时间相差的秒数
+
+       {
+
+              //或return(timeToSecond(t) – (baseHour*3600 +baseMinute*60 +baseSecond));
+
+ 
+
+              return((t.hour-baseHour)*3600 + (t.minute-baseMinute)*60 + t.second-baseSecond);
+
+       }              //静态成员函数中只能直接访问静态成员，不能直接访问非静态成员
+
+ 
+
+       void show()
+
+       {
+
+              cout<<"    时间 "<<hour<<":"<<minute<<":"<<second<<endl;
+
+       }
+
+ 
+
+       friend int diffence(Time t1, Time t2);  //返回以秒为单位的时间差
+
+};
+
+ 
+
+int Time::baseHour=1, Time::baseMinute=10, Time::baseSecond=10;
+
+ 
+
+int diffence(Time t1, Time t2)
+
+{
+
+       int s1=Time::timeToSecond(t1);
+
+       int s2=Time::timeToSecond(t2);
+
+       return(s1-s2);
+
+}
+
+int main()
+
+{
+
+       Time t1(1,11,2), t2(1,12,50);
+
+ 
+
+       t1.show();
+
+       t2.show();
+
+ 
+
+       cout<<Time::timeBaseDiffence(t1)<<endl;
+
+       cout<<Time::timeBaseDiffence(t2)<<endl;
+
+ 
+
+       cout<<diffence(t1, t2)<<endl;
+
+ 
+
+       return 0;
+
+}
